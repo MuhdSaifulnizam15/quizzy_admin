@@ -17,7 +17,7 @@ class CreateAssignmentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->dateTime('dateline');
-            $table->bigInteger('priority');
+            $table->bigInteger('priority')->default(0);
             $table->bigInteger('subject_id')->unsigned()->nullable();
             $table->bigInteger('quiz_id')->unsigned()->nullable();
             $table->timestamps();

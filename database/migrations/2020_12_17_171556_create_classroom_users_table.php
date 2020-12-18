@@ -18,7 +18,7 @@ class CreateClassroomUsersTable extends Migration
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->bigInteger('classroom_id')->unsigned()->nullable();
             $table->bigInteger('assignment_id')->unsigned()->nullable();
-            $table->string('batch_year');
+            $table->string('batch_year')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
