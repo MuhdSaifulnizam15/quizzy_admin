@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Notifications\MailVerifyEmailNotification;
+use App\Notifications\MailResetPasswordNotification;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, Notifiable;
@@ -42,6 +44,14 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
+        $this->notify(new MailResetPasswordNotification($token));
+    }
+
+    /**
+     * Override the mail body for verify email notification mail.
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new MailVerifyEmailNotification());
     }
 }

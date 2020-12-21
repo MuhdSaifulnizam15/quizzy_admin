@@ -13,10 +13,12 @@ use App\Http\Controllers\API\BaseController;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Auth\Events\Verified;
 
 class AuthController extends BaseController
 {
-    use SendsPasswordResetEmails;
+    use SendsPasswordResetEmails, VerifiesEmails;
 
     /**
      * Register API
@@ -37,11 +39,13 @@ class AuthController extends BaseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+        $user->sendEmailVerificationNotification();
         // $success['token'] = $user->createToken('QuizzySecret')->accessToken;
         $success['email'] = $user->email;
 
         return $this->sendResponse(
-            'User successfully registered', $success
+            // 'User successfully registered', $success
+            'something', $user
         );
     }
 
@@ -53,12 +57,19 @@ class AuthController extends BaseController
     public function login(Request $request){
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
-            $success['token'] = $user->createToken('QuizzySecret')->accessToken;
-            $success['name'] = $user->name;
 
-            return $this->sendResponse(
-                'User sucessfully login', $success
-            );
+            if($user->email_verified_at !== null){
+                $success['token'] = $user->createToken('QuizzySecret')->accessToken;
+                $success['name'] = $user->name;
+
+                return $this->sendResponse(
+                    'User sucessfully login', $success
+                );
+            } else {
+                return $this->sendError(
+                    'Please verify your account. Check the inbox of this email ' . $request->email
+                );
+            }
         } else {
             return $this->sendError(
                 'Invalid credentials'
@@ -177,32 +188,59 @@ class AuthController extends BaseController
 
     /**
      * Verify email 
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function verify($user_id, Request $request) {
+    public function verify(Request $request) {
         if (!$request->hasValidSignature()) {
             return $this->sendError('Invalid/Expired url provided', [], 401);
         }
     
-        $user = User::findOrFail($user_id);
+        $user = User::findOrFail($request->id);
     
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
+            return $this->sendResponse('Email verified');
+        } else {
+            return $this->sendResponse('Email already verified');
         }
     
-        return redirect()->to('/');
     }
 
     /**
      * Resend email verification link 
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function resend() {
-        if (auth()->user()->hasVerifiedEmail()) {
+    public function resend(Request $request) {
+        if ($request->user()->hasVerifiedEmail()) {
             return $this->sendError('Email already verified', [], 400);
         }
     
-        auth()->user()->sendEmailVerificationNotification();
+        $request->user()->sendEmailVerificationNotification();
     
         return $this->sendResponse('Email verification link sent on your email id');
         
+    }
+
+    /**
+     * Return unauthorize error message 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function unauthorized() { 
+        return $this->sendError("unauthorized", [], 401); 
+    } 
+
+    /**
+     * Get User Details
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserDetails() {
+        $user = Auth::user();
+        return $this->sendResponse('user details', $user);
     }
 }
