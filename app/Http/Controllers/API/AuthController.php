@@ -15,6 +15,8 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Auth\Events\Verified;
+use Avatar;
+use Storage;
 
 class AuthController extends BaseController
 {
@@ -39,6 +41,10 @@ class AuthController extends BaseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+
+        $avatar = Avatar::create($user->name)->getImageObject()->encode('png');
+        Storage::put('avatars/'.$user->id.'/avatar.png', (string) $avatar);
+
         $user->sendEmailVerificationNotification();
         // $success['token'] = $user->createToken('QuizzySecret')->accessToken;
         $success['email'] = $user->email;
@@ -58,16 +64,16 @@ class AuthController extends BaseController
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
 
-            if($user->email_verified_at !== null){
-                $success['token'] = $user->createToken('QuizzySecret')->accessToken;
-                $success['name'] = $user->name;
+            $success['token'] = $user->createToken('QuizzySecret')->accessToken;
+            $success['name'] = $user->name; 
 
+            if($user->email_verified_at !== null){
                 return $this->sendResponse(
                     'User sucessfully login', $success
                 );
             } else {
-                return $this->sendError(
-                    'Please verify your account. Check the inbox of this email ' . $request->email
+                return $this->sendResponse(
+                    'Please verify your account. Check the inbox of this email ' . $request->email, $success
                 );
             }
         } else {
