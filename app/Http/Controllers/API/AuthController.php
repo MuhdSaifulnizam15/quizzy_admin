@@ -20,7 +20,7 @@ use Storage;
 
 class AuthController extends BaseController
 {
-    use SendsPasswordResetEmails, VerifiesEmails;
+    use SendsPasswordResetEmails;
 
     /**
      * Register API
@@ -50,8 +50,7 @@ class AuthController extends BaseController
         $success['email'] = $user->email;
 
         return $this->sendResponse(
-            // 'User successfully registered', $success
-            'something', $user
+            'User successfully registered', $success
         );
     }
 
@@ -63,6 +62,8 @@ class AuthController extends BaseController
     public function login(Request $request){
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
+            $success['token'] = $user->createToken('QuizzySecret')->accessToken;
+            $success['name'] = $user->name;
 
             $success['token'] = $user->createToken('QuizzySecret')->accessToken;
             $success['name'] = $user->name; 
@@ -194,59 +195,32 @@ class AuthController extends BaseController
 
     /**
      * Verify email 
-     * 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function verify(Request $request) {
+    public function verify($user_id, Request $request) {
         if (!$request->hasValidSignature()) {
             return $this->sendError('Invalid/Expired url provided', [], 401);
         }
     
-        $user = User::findOrFail($request->id);
+        $user = User::findOrFail($user_id);
     
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
-            return $this->sendResponse('Email verified');
-        } else {
-            return $this->sendResponse('Email already verified');
         }
     
+        return redirect()->to('/');
     }
 
     /**
      * Resend email verification link 
-     * 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function resend(Request $request) {
-        if ($request->user()->hasVerifiedEmail()) {
+    public function resend() {
+        if (auth()->user()->hasVerifiedEmail()) {
             return $this->sendError('Email already verified', [], 400);
         }
     
-        $request->user()->sendEmailVerificationNotification();
+        auth()->user()->sendEmailVerificationNotification();
     
         return $this->sendResponse('Email verification link sent on your email id');
         
-    }
-
-    /**
-     * Return unauthorize error message 
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function unauthorized() { 
-        return $this->sendError("unauthorized", [], 401); 
-    } 
-
-    /**
-     * Get User Details
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function getUserDetails() {
-        $user = Auth::user();
-        return $this->sendResponse('user details', $user);
     }
 }
