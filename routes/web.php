@@ -12,9 +12,24 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::post('/login', 'Web\AuthController@login');
+// Route::post('/register', 'Web\AuthController@register');
+// Route::post('/password/forgot', 'Web\AuthController@forgot');
+// Route::get('/email/verify/{id}', 'Web\AuthController@verify')->name('verification.verify');
+// Route::get('/email/resend', 'Web\AuthController@resend')->name('verification.resend');
+
+Route::group(['middleware' => ['verified']], function() {
+    // Route::get('/logout', 'Web\AuthController@logout');
+    // Route::post('/password/change', 'Web\AuthController@change');
+    
+    // // Send reset password mail
+    // Route::post('reset-password', 'Web\AuthController@sendPasswordResetLink');
+    // Route::post('/password/reset/', 'Web\AuthController@callResetPassword');
+
+    Route::get('/dashboard', 'Web\DashboardController@index')->name('dashbaord');
+});

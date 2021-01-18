@@ -21,7 +21,7 @@
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-title">Logged in 5 min ago</div>
                 <a href="#" class="dropdown-item has-icon">
-                    <i class="fas fa-user"></i> Profile
+                    <i class="fas fa-user"></i> My Profile
                 </a>
                 <a href="#" class="dropdown-item has-icon">
                     <i class="fas fa-cog"></i> Settings
