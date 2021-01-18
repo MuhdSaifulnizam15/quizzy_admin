@@ -8,22 +8,11 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <title>@yield('title') &dash; {{ config('app.name', 'Laravel') }}</title>
-
-<!-- Fonts -->
-<link rel="dns-prefetch" href="//fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!-- Styles -->
-<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ mix('css/app.css') }}">
+@stack('stylesheet')
 
-<!-- General CSS Files -->
-<link rel="stylesheet" href="{{ asset('vendors/template/dist/modules/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="{{ asset('vendors/template/dist/modules/fontawesome/css/all.min.css')}}">
-
-<!-- CSS Libraries -->
+<!-- Additional CSS Libraries -->
 @yield('additional_css')
-
-<!-- Template CSS -->
-<link rel="stylesheet" href="{{ asset('vendors/template/dist/css/style.css') }}">
-<link rel="stylesheet" href="{{ asset('vendors/template/dist/css/components.css') }}">
-<link rel="stylesheet" href="{{ asset('vendors/template/dist/css/custom.css') }}">
