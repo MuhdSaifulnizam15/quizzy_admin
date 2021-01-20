@@ -18,5 +18,10 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => ['verified']], function() {
-    Route::get('/dashboard', 'Web\DashboardController@index')->name('dashbaord');
+    Route::get('/dashboard', 'Web\DashboardController@index')->name('dashboard');
+    Route::get('/users', 'Web\UserController@index')->name('user.index');
+
+    Route::get('/profile', function() {
+        return view('admin/profile');
+    })->name('profile');
 });

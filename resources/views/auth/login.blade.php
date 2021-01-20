@@ -1,9 +1,11 @@
 @extends('layouts.auth')
 
+@section('title', 'Login')
+
 @section('content')
     <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
         <div class="login-brand">
-        <img src="{{ asset('assets/img/quizzy.png') }}" alt="logo" width="80" class="shadow-light rounded-circle">
+        <img src="{{ asset('assets/img/quizzy.png') }}" alt="logo" width="80" class="shadow-light rounded-circle p-1">
         </div>
         <div class="card card-primary">
             <div class="card-header"><h4>Login</h4></div>
@@ -52,6 +54,11 @@
         </div>
         <div class="text-muted text-center">
             Don't have an account? <a href="{{ route('register') }}">Create One</a>
+        </div>
+        <div class="simple-footer">
+            Copyright &copy; {{ config('app.name') }} {{ date('Y') }}
+            <div class="bullet"></div> 
+            All Rights Reserved
         </div>
     </div>
 @endsection

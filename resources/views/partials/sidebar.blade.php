@@ -8,7 +8,7 @@
     </div>
     <ul class="sidebar-menu">
       <li>
-        <a href="#" class="nav-link">
+        <a href="{{ route('dashboard') }}" class="nav-link">
           <i class="fas fa-fire"></i>
           <span>Dashboard</span>
         </a>
@@ -88,7 +88,7 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a href="#" class="nav-link">
+              <a href="{{ route('profile') }}" class="nav-link">
                 <i class="fas fa-user"></i>
                 <span>My Profile</span>
               </a>

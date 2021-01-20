@@ -13,7 +13,6 @@
         </div>
       </section>
 
-      @include('partials.footer')
       @include('partials.js')
     </div>
 </body>
