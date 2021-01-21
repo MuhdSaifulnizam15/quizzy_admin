@@ -9,9 +9,10 @@ use Laravel\Passport\HasApiTokens;
 use App\Notifications\MailVerifyEmailNotification;
 use App\Notifications\MailResetPasswordNotification;
 use Storage;
+use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, HasRoles;
 
     protected $appends = ['avatar_url'];
 
