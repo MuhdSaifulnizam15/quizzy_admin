@@ -20,15 +20,16 @@
                     </div> -->
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-md">
-                                <tr>
-                                    <th></th>
-                                    <th>Quote</th>
-                                    <th>Author</th>
-                                    <th>Action</th>
-                                </tr>
-
-                                @foreach($motivations as $motivation)
+                            <table class="table table-bordered table-md data-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Quote</th>
+                                        <th>Author</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <!-- @foreach($motivations as $motivation)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $motivation->quote }}</td>
@@ -38,31 +39,34 @@
                                         <a href="#" class="btn btn-outline-danger m-1">Delete</a>
                                     </td>
                                 </tr>
-                                @endforeach
-
+                                @endforeach -->
+                                <tbody>
+                                </tbody>
                             </table>
                         </div>
-                        </div>
-                        <div class="card-footer text-right">
-                            <nav class="d-inline-block">
-                                <ul class="pagination mb-0">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                                </li>
-                                </ul>
-                            </nav>
                     </div>
                 </div>
             </div>
         </div>
     </div>
   </section>
+@endsection
+
+@section('additional_js')
+<script type="text/javascript">
+    $(function() {
+        var table = $('.data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('motivations.index') }}",
+            pageLength: 10,
+            columns: [
+                { data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                { data: 'quote', name: 'quote'},
+                { data: 'author', name: 'author'},
+                { data: 'action', name: 'action', orderable: false, searchable: false},
+            ]
+        });
+     });
+</script>
 @endsection

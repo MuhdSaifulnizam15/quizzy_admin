@@ -5,33 +5,43 @@
 @section('content')
   <section class="section">
     <div class="section-header">
-      <h1>List of Users</h1>
+      <h1>Users</h1>
     </div>
 
     <div class="section-body">
+        <h2 class="section-title">List of Users</h2>
 
         <div class="row">
-          <div class="col-sm-12">
-              <h1 class="display-3">Contacts</h1>    
-            <table class="table table-striped">
-              <thead>
-                  <tr>
-                    <td>ID</td>
-                    <td>Name</td>
-                    <td>Email</td>
-                  </tr>
-              </thead>
-              <tbody>
-                  @foreach($users as $user)
-                  <tr>
-                      <td>{{$loop->iteration}}</td>
-                      <td>{{$user->name}}</td>
-                      <td>{{$user->email}}</td>
-                  </tr>
-                  @endforeach
-              </tbody>
-            </table>
-          <div>
+          <div class="col-12">
+          <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped" id="table-1">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Full Name</th>
+                      <th>Email</th>
+                      <th>Date Created</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($users as $user)
+                    <tr>
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>{{ date('d M Y', strtotime($user->created_at)) }}</td>
+                        <td>
+                            <a href="#" class="btn btn-outline-primary m-1">Edit</a>
+                            <a href="#" class="btn btn-outline-danger m-1">Delete</a>
+                        </td>
+                    </tr>
+                    @endforeach 
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
     </div>
   </section>

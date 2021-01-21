@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Motivation;
 use Illuminate\Http\Request;
-
+use DataTables;
 class MotivationController extends Controller
 {
     /**
@@ -13,9 +13,21 @@ class MotivationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $motivations = Motivation::all();
+        if($request->ajax()){
+            $data = Motivation::latest()->get();
+            return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($data){
+                        $btn = '<a href="#" class="btn btn-outline-primary m-1">Edit</a>';
+                        $btn .=  '<a href="#" class="btn btn-outline-danger m-1">Delete</a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
         return view('admin.motivation.index', compact('motivations'));
     }
 
