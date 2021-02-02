@@ -58,4 +58,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Storage::url('avatars/'.$this->id.'/'.$this->avatar);
     }
+
+    /**
+     * Get the quiz marks associated with the user
+     */
+    public function quizMarks(){
+        return $this->hasMany(QuizMark::class);
+    }
 }

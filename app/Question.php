@@ -16,7 +16,14 @@ class Question extends Model
     /**
      * Get the answer associated with the question.
      */
-    public function questionAnswers(){
+    public function questionAnswer(){
         return $this->hasOne(QuestionAnswer::class);
+    }
+
+    /**
+     * Get the quiz associated with the question
+     */
+    public function quiz(){
+        return $this->belongsTo(Quiz::class);
     }
 }
