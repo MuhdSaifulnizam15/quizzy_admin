@@ -12,4 +12,20 @@ class Classroom extends Model
      * @var string
      */
     protected $table = 'classrooms';
+
+    /** The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+    ];
+
+    /**
+     * Get the subject that owns the classroom.
+     */
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }

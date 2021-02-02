@@ -23,7 +23,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link">
+          <a href="{{ route('motivations.index') }}" class="nav-link">
             <i class="fas fa-syringe"></i>
             <span>Daily Dose</span>
           </a>
@@ -41,7 +41,7 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a href="#" class="nav-link">
+              <a href="{{ route('users.index') }}" class="nav-link">
                 <i class="fas fa-users"></i>
                 <span>Users</span>
               </a>
