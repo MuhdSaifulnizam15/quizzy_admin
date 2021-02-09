@@ -1,39 +1,33 @@
-@if(session('status-success'))
-<div class="alert alert-success alert-dismissible show fade">
-    <div class="alert-body">
-        <button class="close" data-dismiss="alert"><span>×</span></button>
-        <span class="alert-message">{!! session('status-success') !!}</span>
+@php
+    $errors = Session::get('error');
+    $messages = Session::get('success');
+    $info = Session::get('info');
+    $warnings = Session::get('warning');
+@endphp
+@if ($errors) @foreach($errors as $key => $value)
+    <div class="alert alert-danger alert-dismissible show fade" role="alert">
+        <button class="close" type="button" data-dismiss="alert">×</button>
+        <strong>Error!</strong> {{ $value }}
     </div>
-</div>
-@endif
+@endforeach @endif
 
-@if(session('status-warning'))
-<div class="alert alert-warning alert-dismissible show fade">
-    <div class="alert-body">
-        <button class="close" data-dismiss="alert"><span>×</span></button>
-        <span class="alert-message">{!! session('status-warning') !!}</span>
+@if ($messages) @foreach($messages as $key => $value)
+    <div class="alert alert-success alert-dismissible show fade" role="alert">
+        <button class="close" type="button" data-dismiss="alert">×</button>
+        <strong>Success!</strong> {{ $value }}
     </div>
-</div>
-@endif
+@endforeach @endif
 
-@if(session('status-danger'))
-<div class="alert alert-danger alert-dismissible show fade">
-    <div class="alert-body">
-        <button class="close" data-dismiss="alert"><span>×</span></button>
-        <span class="alert-message">{!! session('status-danger') !!}</span>
+@if ($info) @foreach($info as $key => $value)
+    <div class="alert alert-info alert-dismissible show fade" role="alert">
+        <button class="close" type="button" data-dismiss="alert">×</button>
+        <strong>Info!</strong> {{ $value }}
     </div>
-</div>
-@endif
+@endforeach @endif
 
-@if (count($errors) > 0)
-<div class="alert-container">
-    <div class="alert alert-danger alert-dismissible" role="alert">
-        <button class="close" data-dismiss="alert"><span>×</span></button>
-        <ul class="list-unstyled mb-0">
-            @foreach ($errors->all() as $error)
-            <li><span class="alert-message">{!! $error !!}</span></li>
-            @endforeach
-        </ul>
+@if ($warnings) @foreach($warnings as $key => $value)
+    <div class="alert alert-warning alert-dismissible show fade" role="alert">
+        <button class="close" type="button" data-dismiss="alert">×</button>
+        <strong>Warning!</strong> {{ $value }}
     </div>
-</div>
-@endif
+@endforeach @endif

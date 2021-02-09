@@ -26,4 +26,14 @@ Route::group(['middleware' => ['verified']], function() {
     })->name('profile');
 
     Route::resource('/motivations', 'Web\MotivationController');
+
+    // Students
+    Route::group(['prefix' => 'subjects'], function () {
+        Route::get('/', 'Web\SubjectController@index')->name('admin.subjects.index');
+        Route::get('/create', 'Web\SubjectController@create')->name('admin.subjects.create');
+        Route::post('/store', 'Web\SubjectController@store')->name('admin.subjects.store');
+        Route::get('/edit/{id}', 'Web\SubjectController@edit')->name('admin.subjects.edit');
+        Route::post('/update/{id}', 'Web\SubjectController@update')->name('admin.subjects.update');       
+        Route::post('/{id}/delete', 'Web\SubjectController@delete')->name('admin.subjects.delete');
+    });
 });

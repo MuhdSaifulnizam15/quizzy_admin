@@ -16,24 +16,24 @@
 
       <li class="menu-header">Content</li> 
       <li class="nav-item dropdown active">
-        <li>
+        <!-- <li>
           <a href="#" class="nav-link">
             <i class="fas fa-file-archive"></i>
             <span>Media</span>
           </a>
-        </li>
+        </li> -->
         <li>
           <a href="{{ route('motivations.index') }}" class="nav-link">
             <i class="fas fa-syringe"></i>
             <span>Daily Dose</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="#" class="nav-link">
             <i class="fas fa-tools"></i>
             <span>Quiz Builder</span>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item dropdown">
           <a href="#" class="nav-link has-dropdown">
             <i class="fas fa-tasks"></i>
@@ -45,8 +45,8 @@
                 <i class="fas fa-users"></i>
                 <span>Users</span>
               </a>
-          </li>
-            <li>
+            </li>
+            <!-- <li>
               <a href="#" class="nav-link">
                 <i class="far fa-file-word"></i>
                 <span>Quizzes</span>
@@ -69,9 +69,9 @@
                 <i class="far fa-paper-plane"></i>
                 <span>Assignments</span>
               </a>
-            </li>
+            </li> -->
             <li>
-              <a href="#" class="nav-link">
+              <a href="{{ route('admin.subjects.index') }}" class="nav-link">
                 <i class="fas fa-book"></i>
                 <span>Subjects</span>
               </a>
