@@ -76,4 +76,37 @@ class QuizController extends BaseController
 
         return $this->responseRedirect('admin.quizzes.index', 'Quiz status successfully updated' ,'success', false, false);
     }
+
+    public function edit($id)
+    {
+        $edit = true;
+        $subjects = Subject::all();
+        $quiz = Quiz::findOrFail($id);
+
+        $this->setPageTitle('Quizzes', 'Edit Quizzes : ' . $quiz->name);
+        return view('admin.quizzes.create', compact('edit', 'subjects', 'quiz'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name'      =>  'required|unique:quizzes,name,'.$id,
+        ]);
+
+        $quiz = Quiz::findOrFail($id);
+        $quiz->name = $request->input('name');
+        $quiz->description = $request->input('description');
+        $quiz->subject_id = $request->input('subject_id');
+        $quiz->save();
+        
+        return $this->responseRedirect('admin.quizzes.index', 'Quiz successfully updated' ,'success', false, false);
+    }
+
+    public function delete($id)
+    {
+        $subject = Quiz::findOrFail($id);
+        $subject->delete();
+
+        return $this->responseRedirect('admin.quizzes.index', 'Quiz successfully deleted' ,'success', false, false);
+    }
 }

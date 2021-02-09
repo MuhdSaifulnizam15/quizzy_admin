@@ -17,7 +17,7 @@
                     <div class="card-header">
                         <h4>{{ $subTitle }}</h4>
                     </div>
-                    <form action="{{ $edit ? route('admin.quizzes.update', $subject->id) : route('admin.quizzes.store') }}" method="POST" role="form">
+                    <form action="{{ $edit ? route('admin.quizzes.update', $quiz->id) : route('admin.quizzes.store') }}" method="POST" role="form">
                     @csrf
                         <div class="card-body">
                             <div class="form-group">
@@ -38,6 +38,9 @@
                                 <select id=subject class="form-control custom-select mt-15 @error('subject_id') is-invalid @enderror" name="subject_id">
                                     <option value="0">Select a subject</option>
                                     @foreach($subjects as $subject)
+                                        @if($edit && $subject->id == $quiz->id)
+                                        <option value="{{ $subject->id }}" selected> {{ $subject->name . ' - ' . $subject->code }} </option>
+                                        @endif
                                         <option value="{{ $subject->id }}"> {{ $subject->name . ' - ' . $subject->code }} </option>
                                     @endforeach
                                 </select>
