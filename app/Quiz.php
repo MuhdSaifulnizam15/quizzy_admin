@@ -25,9 +25,9 @@ class Quiz extends Model
     /**
      * The assignments that belong to the quiz subject.
      */
-    public function subjects()
+    public function subject()
     {
-        return $this->belongsToMany(Subject::class, 'assignments');
+        return $this->belongsTo(Subject::class);
     }
 
     /**

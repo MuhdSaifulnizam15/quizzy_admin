@@ -46,13 +46,13 @@
                 <span>Users</span>
               </a>
             </li>
-            <!-- <li>
-              <a href="#" class="nav-link">
+            <li>
+              <a href="{{ route('admin.quizzes.index') }}" class="nav-link">
                 <i class="far fa-file-word"></i>
                 <span>Quizzes</span>
               </a>
             </li>
-            <li>
+            <!-- <li>
               <a href="#" class="nav-link">
                 <i class="fas fa-school"></i>
                 <span>Classes</span>

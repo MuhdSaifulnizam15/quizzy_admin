@@ -20,7 +20,7 @@ class Subject extends Model
      */
     public function quizzes()
     {
-        return $this->belongsToMany(Quiz::class, 'assignments');
+        return $this->hasMany(Quiz::class);
     }
 
     /**

@@ -23,7 +23,7 @@ class Assignment extends Model
     /**
      * Get the subject associated with the assignment
      */
-    public function subejct(){
+    public function subject(){
         return $this->belongsTo(Subject::class);
     }
 }

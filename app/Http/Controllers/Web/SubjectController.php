@@ -83,6 +83,9 @@ class SubjectController extends BaseController
 
     public function delete($id)
     {
-        
+        $subject = Subject::findOrFail($id);
+        $subject->delete();
+
+        return $this->responseRedirect('admin.subjects.index', 'Subject successfully deleted' ,'success', false, false);
     }
 }
