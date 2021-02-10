@@ -80,5 +80,33 @@ class UsersTableSeeder extends Seeder
             $student = User::create($value);
             $student->assignRole('student');
         }
+
+        $admin = [
+            [
+                'name' => 'Muhd Farhan',
+                'email' => 'hr.farhan@quizzy.com',
+                'password' => bcrypt('Asd1234'),
+            ],
+            [
+                'name' => 'Chemistry Department',
+                'email' => 'chem.department@quizzy.com',
+                'password' => bcrypt('Asd1234'),
+            ],
+            [
+                'name' => 'Physics Department',
+                'email' => 'phys.department@quizzy.com',
+                'password' => bcrypt('Asd1234'),
+            ],
+            [
+                'name' => 'Biology',
+                'email' => 'bio.department@quizzy.com',
+                'password' => bcrypt('Asd1234'),
+            ],
+        ];
+
+        foreach($admin as $key => $value) {
+            $admin = User::create($value);
+            $admin->assignRole('admin');
+        }
     }
 }
