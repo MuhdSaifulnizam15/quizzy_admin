@@ -65,4 +65,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function quizMarks(){
         return $this->hasMany(QuizMark::class);
     }
+
+    /**
+     * Get the quiz marks associated with the user
+     */
+    public function classrooms(){
+        return $this->hasMany(Classroom::class);
+    }
 }

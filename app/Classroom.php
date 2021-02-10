@@ -28,4 +28,12 @@ class Classroom extends Model
     {
         return $this->belongsTo(Subject::class);
     }
+
+    /**
+     * Get the tutor that owns the classroom.
+     */
+    public function tutor()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

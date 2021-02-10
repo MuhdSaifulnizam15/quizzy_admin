@@ -58,12 +58,12 @@ Route::group(['middleware' => ['verified']], function() {
     });
 
     // Classroom
-    Route::group(['prefix' => 'classroom'], function () {
-        Route::get('/', 'Web\ClassroomController@index')->name('admin.classroom.index');
-        Route::get('/create', 'Web\ClassroomController@create')->name('admin.classroom.create');
-        Route::post('/store', 'Web\ClassroomController@store')->name('admin.classroom.store');
-        Route::get('/edit/{id}', 'Web\ClassroomController@edit')->name('admin.classroom.edit');
-        Route::post('/update/{id}', 'Web\ClassroomController@update')->name('admin.classroom.update');       
-        Route::get('/{id}/delete', 'Web\ClassroomController@delete')->name('admin.classroom.delete');
+    Route::group(['prefix' => 'classrooms'], function () {
+        Route::get('/', 'Web\ClassroomController@index')->name('admin.classrooms.index');
+        Route::get('/create', 'Web\ClassroomController@create')->name('admin.classrooms.create');
+        Route::post('/store', 'Web\ClassroomController@store')->name('admin.classrooms.store');
+        Route::get('/edit/{id}', 'Web\ClassroomController@edit')->name('admin.classrooms.edit');
+        Route::post('/update/{id}', 'Web\ClassroomController@update')->name('admin.classrooms.update');       
+        Route::get('/{id}/delete', 'Web\ClassroomController@delete')->name('admin.classrooms.delete');
     });
 });
