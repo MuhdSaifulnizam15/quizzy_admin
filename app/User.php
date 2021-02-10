@@ -67,9 +67,17 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Get the quiz marks associated with the user
+     * Get the tutor associated with the classroom
      */
-    public function classrooms(){
+    public function tutors(){
         return $this->hasMany(Classroom::class);
+    }
+
+    /**
+     * The users that belong to the role.
+     */
+    public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class, 'classroom_users');
     }
 }

@@ -33,10 +33,24 @@
                                 <select id=subject class="form-control custom-select mt-15 @error('subject_id') is-invalid @enderror" name="subject_id">
                                     <option value="0">Select a subject</option>
                                     @foreach($subjects as $subject)
-                                        @if($edit && $subject->id == $classroom->id)
+                                        @if($edit && $subject->id == $classroom->subject_id)
                                         <option value="{{ $subject->id }}" selected> {{ $subject->name . ' - ' . $subject->code }} </option>
                                         @endif
                                         <option value="{{ $subject->id }}"> {{ $subject->name . ' - ' . $subject->code }} </option>
+                                    @endforeach
+                                </select>
+                                @error('subject_id') {{ $message }} @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tutor">Tutor Name <span class="m-l-5 text-danger"> *</span></label>
+                                <select id=tutor class="form-control custom-select mt-15 @error('tutor_id') is-invalid @enderror" name="tutor_id">
+                                    <option value="0">Select tutor</option>
+                                    @foreach($tutors as $tutor)
+                                        @if($edit && $tutor->id == $classroom->tutor_id)
+                                        <option value="{{ $tutor->id }}" selected> {{ $tutor->name }} </option>
+                                        @endif
+                                        <option value="{{ $tutor->id }}"> {{ $tutor->name }} </option>
                                     @endforeach
                                 </select>
                                 @error('subject_id') {{ $message }} @enderror

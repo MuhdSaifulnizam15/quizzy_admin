@@ -36,4 +36,19 @@ class Classroom extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get the quiz associated with the assignments
+     */
+    public function assignments(){
+        return $this->hasMany(Assignment::class);
+    }
+
+    /**
+     * The users that belong to the role.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'classroom_users');
+    }
 }

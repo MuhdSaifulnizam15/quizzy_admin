@@ -24,8 +24,8 @@ class SubjectController extends BaseController
             return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
-                        $btn = '<a href="'. route("admin.subjects.edit", $data->id) .'" class="btn btn-outline-primary m-1">Edit</a>';
-                        $btn .=  '<a href="'. route("admin.subjects.delete", $data->id) .'" class="btn btn-outline-danger m-1">Delete</a>';
+                        $btn = '<a href="'. route("admin.subjects.edit", $data->id) .'" class="btn btn-outline-primary m-1"><i class="fa fa-edit"></i></a>';
+                        $btn .=  '<a href="'. route("admin.subjects.delete", $data->id) .'" class="btn btn-outline-danger m-1"><i class="fa fa-trash"></i></a>';
                         return $btn;
                     })
                     ->rawColumns(['action'])

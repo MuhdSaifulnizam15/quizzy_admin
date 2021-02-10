@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Web;
 
 use App\Classroom;
+use App\ClassroomUser;
+use App\Subject;
+use App\User;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Web\BaseController;
 use Illuminate\Http\Request;
 use DataTables;
@@ -25,7 +29,8 @@ class ClassroomController extends BaseController
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
                         $btn = '<a href="'. route("admin.classrooms.edit", $data->id) .'" class="btn btn-outline-primary m-1"><i class="fa fa-edit"></i></a>';
-                        $btn .=  '<a href="'. route("admin.classrooms.delete", $data->id) .'" class="btn btn-outline-danger m-1">Del<i class="fa fa-trash"></i>ete</a>';
+                        $btn .=  '<a href="'. route("admin.classrooms.detail", $data->id) .'" class="btn btn-outline-info m-1"><i class="far fa-eye"></i></a>';
+                        $btn .=  '<a href="'. route("admin.classrooms.delete", $data->id) .'" class="btn btn-outline-danger m-1"><i class="fa fa-trash"></i></a>';
                         return $btn;
                     })
                     ->addColumn('subject_name', function($data){
@@ -48,13 +53,18 @@ class ClassroomController extends BaseController
     {
         $this->setPageTitle('Classroom', 'Add Classroom');
         $edit = false;
-        return view('admin.classrooms.create', compact('edit'));
+        $subjects = Subject::all();
+        $tutors = User::role('tutor')->get();
+
+        return view('admin.classrooms.create', compact('edit', 'subjects', 'tutors'));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'      =>  'required|unique:classrooms'
+            'name'      =>  'required|unique:classrooms',
+            'subject_id' => 'required',
+            'tutor_id' => 'required',
         ]);
 
         $classroom = new Classroom();
@@ -70,9 +80,33 @@ class ClassroomController extends BaseController
     {
         $classroom = Classroom::findOrFail($id);
         $edit = true;
+        $subjects = Subject::all();
+        $tutors = User::role('tutor')->get();
 
         $this->setPageTitle('Classroom', 'Edit Classroom : ' . $classroom->name);
-        return view('admin.classrooms.create', compact('classroom', 'edit'));
+        return view('admin.classrooms.create', compact('classroom', 'edit', 'subjects', 'tutors'));
+    }
+
+    public function detail(Request $request, $id)
+    {
+        $classroom = Classroom::findOrFail($id);
+        $classroomStudent = $classroom->users;
+
+        if($request->ajax()){
+            $data = $classroom->users;
+            return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($data){;
+                        $btn =  '<a href="#" class="btn btn-outline-info m-1"><i class="far fa-eye"></i></a>';
+                        $btn .=  '<a href="#" class="btn btn-outline-danger m-1"><i class="fa fa-trash"></i></a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+
+        $this->setPageTitle('Classroom User', 'List of Class ' . $classroom->name . ' Student');
+        return view('admin.classrooms.details', compact('classroomStudent'));
     }
 
     public function update(Request $request, $id)
