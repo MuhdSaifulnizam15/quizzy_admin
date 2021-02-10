@@ -19,15 +19,24 @@ Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => ['verified']], function() {
     Route::get('/dashboard', 'Web\DashboardController@index')->name('dashboard');
-    Route::get('/users', 'Web\UserController@index')->name('users.index');
 
     Route::get('/profile', function() {
         return view('admin/profile');
     })->name('profile');
 
     Route::resource('/motivations', 'Web\MotivationController');
+    
+    // Users
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', 'Web\UserController@index')->name('admin.users.index');
+        Route::get('/create', 'Web\UserController@create')->name('admin.users.create');
+        Route::post('/store', 'Web\UserController@store')->name('admin.users.store');
+        Route::get('/edit/{id}', 'Web\UserController@edit')->name('admin.users.edit');
+        Route::post('/update/{id}', 'Web\UserController@update')->name('admin.users.update');       
+        Route::get('/delete/{id}', 'Web\UserController@delete')->name('admin.users.delete');
+    });
 
-    // Students
+    // Subjects
     Route::group(['prefix' => 'subjects'], function () {
         Route::get('/', 'Web\SubjectController@index')->name('admin.subjects.index');
         Route::get('/create', 'Web\SubjectController@create')->name('admin.subjects.create');
@@ -46,5 +55,15 @@ Route::group(['middleware' => ['verified']], function() {
         Route::get('/activate/{id}', 'Web\QuizController@changeStatus')->name('admin.quizzes.activate');
         Route::post('/update/{id}', 'Web\QuizController@update')->name('admin.quizzes.update');       
         Route::get('/{id}/delete', 'Web\QuizController@delete')->name('admin.quizzes.delete');
+    });
+
+    // Classroom
+    Route::group(['prefix' => 'classroom'], function () {
+        Route::get('/', 'Web\ClassroomController@index')->name('admin.classroom.index');
+        Route::get('/create', 'Web\ClassroomController@create')->name('admin.classroom.create');
+        Route::post('/store', 'Web\ClassroomController@store')->name('admin.classroom.store');
+        Route::get('/edit/{id}', 'Web\ClassroomController@edit')->name('admin.classroom.edit');
+        Route::post('/update/{id}', 'Web\ClassroomController@update')->name('admin.classroom.update');       
+        Route::get('/{id}/delete', 'Web\ClassroomController@delete')->name('admin.classroom.delete');
     });
 });

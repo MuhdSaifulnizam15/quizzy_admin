@@ -41,7 +41,7 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a href="{{ route('users.index') }}" class="nav-link">
+              <a href="{{ route('admin.users.index') }}" class="nav-link">
                 <i class="fas fa-users"></i>
                 <span>Users</span>
               </a>
