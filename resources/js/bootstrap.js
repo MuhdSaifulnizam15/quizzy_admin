@@ -18,6 +18,9 @@ require('popper.js');
 require('bootstrap');
 require('jquery.nicescroll');
 require('datatables.net-bs4');
+require('select2');
+require('sweetalert');
+require('dropzone');
 
 require('./stisla/stisla');
 require('./stisla/scripts');
