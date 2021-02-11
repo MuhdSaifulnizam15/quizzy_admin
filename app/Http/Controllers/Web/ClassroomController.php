@@ -124,6 +124,19 @@ class ClassroomController extends BaseController
         return $this->responseRedirect('admin.classrooms.index', 'Classroom successfully updated' ,'success', false, false);
     }
 
+    public function addStudentToClass(Request $request, $id)
+    {
+        $this->validate($request, [
+            'user_id' => 'required'
+        ]);
+        
+        $classroom = Classroom::findOrFail($id);
+        $student = User::findOrFail($request->input('user_id')); 
+        $classroom->users()->attach($student->pluck('id')->unique()->toArray());
+        
+        return $this->responseRedirectBack('Classroom successfully updated' ,'success', false, false);
+    }
+
     public function delete($id)
     {
         $classroom = Classroom::findOrFail($id);

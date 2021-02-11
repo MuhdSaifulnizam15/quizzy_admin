@@ -16,7 +16,8 @@
                 <div class="card">
                     <div class="card-header justify-content-between">
                         <h4>{{ $subTitle }}</h4>
-                        <!-- <a href="{{ route('admin.classrooms.create') }}" class="btn btn-outline-primary">Create Class</a> -->
+                        <!-- <a href="{{ route('admin.classrooms.add.student', [Request::segment(3)]) }}" class="btn btn-outline-primary">Add Student</a> -->
+                        <a class="btn btn-outline-primary" data-toggle="modal" data-target="#addStudentModal">Add Student</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -39,6 +40,29 @@
         </div>
     </div>
   </section>
+@endsection
+
+@section('modal')
+<!-- Modal -->
+<div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Select Student
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('additional_js')

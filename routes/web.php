@@ -63,8 +63,9 @@ Route::group(['middleware' => ['verified']], function() {
         Route::get('/create', 'Web\ClassroomController@create')->name('admin.classrooms.create');
         Route::post('/store', 'Web\ClassroomController@store')->name('admin.classrooms.store');
         Route::get('/edit/{id}', 'Web\ClassroomController@edit')->name('admin.classrooms.edit');
-        Route::get('/detail/{id}', 'Web\ClassroomController@detail')->name('admin.classrooms.detail');
         Route::post('/update/{id}', 'Web\ClassroomController@update')->name('admin.classrooms.update');       
         Route::get('/{id}/delete', 'Web\ClassroomController@delete')->name('admin.classrooms.delete');
+        Route::get('/detail/{id}', 'Web\ClassroomController@detail')->name('admin.classrooms.detail');
+        Route::post('/detail/addStudent/{id}', 'Web\ClassroomController@addStudentToClass')->name('admin.classrooms.add.student');
     });
 });
