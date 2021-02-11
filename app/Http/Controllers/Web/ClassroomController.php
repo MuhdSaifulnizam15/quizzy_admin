@@ -91,14 +91,16 @@ class ClassroomController extends BaseController
     {
         $classroom = Classroom::findOrFail($id);
         $classroomStudent = $classroom->users;
+        $students = User::role('student')->with('classrooms.users')
+                        ->get();
 
         if($request->ajax()){
             $data = $classroom->users;
             return DataTables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('action', function($data){;
+                    ->addColumn('action', function ($data) use ($id) {
                         $btn =  '<a href="#" class="btn btn-outline-info m-1"><i class="far fa-eye"></i></a>';
-                        $btn .=  '<a href="#" class="btn btn-outline-danger m-1"><i class="fa fa-trash"></i></a>';
+                        $btn .=  '<a href="'. route("admin.classrooms.delete.student", [ 'classroom' => $id, 'id' => $data->id ]) .'" class="btn btn-outline-danger m-1"><i class="fa fa-trash"></i></a>';
                         return $btn;
                     })
                     ->rawColumns(['action'])
@@ -106,7 +108,7 @@ class ClassroomController extends BaseController
         }
 
         $this->setPageTitle('Classroom User', 'List of Class ' . $classroom->name . ' Student');
-        return view('admin.classrooms.details', compact('classroomStudent'));
+        return view('admin.classrooms.details', compact('classroomStudent', 'students'));
     }
 
     public function update(Request $request, $id)
@@ -126,15 +128,23 @@ class ClassroomController extends BaseController
 
     public function addStudentToClass(Request $request, $id)
     {
-        $this->validate($request, [
-            'user_id' => 'required'
-        ]);
-        
+        $params = $request->except('_token');
+        $studentList = collect($params);
         $classroom = Classroom::findOrFail($id);
-        $student = User::findOrFail($request->input('user_id')); 
-        $classroom->users()->attach($student->pluck('id')->unique()->toArray());
+        // dd($studentList);
+        if($studentList->has('students')){
+            $classroom->users()->attach($params['students']);
+        }
         
-        return $this->responseRedirectBack('Classroom successfully updated' ,'success', false, false);
+        return $this->responseRedirectBack('New student successfully added' ,'success', false, false);
+    }
+
+    public function deleteStudentFromClass($id, $studentId)
+    {
+        $classroom = Classroom::findOrFail($id);
+        $classroom->users()->detach($studentId);
+
+        return $this->responseRedirectBack('Student successfully removed from this class' ,'success', false, false);
     }
 
     public function delete($id)

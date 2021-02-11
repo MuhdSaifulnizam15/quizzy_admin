@@ -7,9 +7,8 @@
     <div class="section-header">
       <h1>{{ $pageTitle }}</h1>
     </div>
-
+    
     @include('partials.flash')
-
     <div class="section-body">
         <div class="row">
             <div class="col-12">
@@ -53,13 +52,26 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                Select Student
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            <form action="{{ route('admin.classrooms.add.student', [Request::segment(3)]) }}" method="POST" role="form">
+                <div class="modal-body">
+                    @csrf
+                    <div class="form-group row align-items-center p-2">
+                        <label for="students">Select Student <span class="m-l-5 text-danger"> *</span></label>
+                        <div class="input-group">
+                            <select name="students[]" id="students" class="form-control select2" style="width: 100%;" multiple>
+                                <option value="0">Select student</option>
+                                @foreach($students as $student)
+                                    <option value="{{ $student->id }}"> {{ $student->name }} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary addStudent">Add Selected Student</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
