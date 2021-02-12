@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Quiz;
 use App\Subject;
+use App\Question;
 use App\Http\Controllers\Web\BaseController;
 use Illuminate\Http\Request;
 use DataTables;
@@ -82,9 +83,12 @@ class QuizController extends BaseController
         $edit = true;
         $subjects = Subject::all();
         $quiz = Quiz::findOrFail($id);
-
+        $questionList = Question::with(['questionOptions', 'questionType'])
+                            ->where('questions.quiz_id', '=', $id)
+                            ->get();
+        // dd($questionList);
         $this->setPageTitle('Quizzes', 'Edit Quizzes : ' . $quiz->name);
-        return view('admin.quizzes.create', compact('edit', 'subjects', 'quiz'));
+        return view('admin.quizzes.create', compact('edit', 'subjects', 'quiz', 'questionList'));
     }
 
     public function update(Request $request, $id)

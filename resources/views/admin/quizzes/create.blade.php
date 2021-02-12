@@ -20,7 +20,9 @@
                     <div class="card-body">
                         <ul class="nav nav-pills flex-column">
                             <li class="nav-item"><a href="#info" class="nav-link active" data-toggle="tab">Quiz Information</a></li>
-                            <li class="nav-item"><a href="#question" class="nav-link" data-toggle="tab">Question</a></li>
+                            @isset($questionList)
+                                <li class="nav-item"><a href="#question" class="nav-link" data-toggle="tab">Question</a></li>
+                            @endisset
                         </ul>
                     </div>
                 </div>
@@ -34,6 +36,11 @@
                         @include('admin.quizzes.includes.info')
                         </form>
                     </div>
+                    @isset($questionList)
+                        <div class="tab-pane" id="question">
+                            @include('admin.quizzes.includes.question')
+                        </div>
+                    @endisset
                 </div>
             </div>
         </div>

@@ -12,4 +12,11 @@ class QuestionType extends Model
      * @var string
      */
     protected $table = 'question_type';
+
+    /**
+     * Get the type of question associated with the question
+     */
+    public function questions(){
+        return $this->hasMany(Question::class);
+    }
 }
