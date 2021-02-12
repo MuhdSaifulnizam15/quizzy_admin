@@ -160,7 +160,7 @@
                                                 <div class="dropdown-menu">
                                                     <a href="#" class="dropdown-item has-icon"><i class="far fa-edit"></i> Edit</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a href="#" class="dropdown-item has-icon text-danger"><i class="far fa-trash-alt"></i> Delete</a>
+                                                    <a href="{{ route('admin.quizzes.delete.option', $option->id) }}" class="dropdown-item has-icon text-danger"><i class="far fa-trash-alt"></i> Delete</a>
                                                 </div>
                                             </div>
                                         </div>
