@@ -13,4 +13,4 @@ $("document").ready(function(){
 
 @yield('additional_js')
 
-@stack('javascript')
+@stack('scripts')

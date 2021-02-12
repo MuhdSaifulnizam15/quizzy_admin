@@ -18,7 +18,7 @@ class CreateQuestionOptionsTable extends Migration
             $table->string('title');
             $table->boolean('is_correct')->default(0);
             $table->bigInteger('question_id')->unsigned()->nullable();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->timestamps();
             
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');

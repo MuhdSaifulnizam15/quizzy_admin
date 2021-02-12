@@ -55,6 +55,8 @@ Route::group(['middleware' => ['verified']], function() {
         Route::get('/activate/{id}', 'Web\QuizController@changeStatus')->name('admin.quizzes.activate');
         Route::post('/update/{id}', 'Web\QuizController@update')->name('admin.quizzes.update');       
         Route::get('/{id}/delete', 'Web\QuizController@delete')->name('admin.quizzes.delete');
+        Route::post('/add/question', 'Web\QuizController@addQuestion')->name('admin.quizzes.add.question');
+        Route::post('/add/option', 'Web\QuizController@addOption')->name('admin.quizzes.add.option');
     });
 
     // Classroom

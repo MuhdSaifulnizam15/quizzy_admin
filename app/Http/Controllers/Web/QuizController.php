@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web;
 use App\Quiz;
 use App\Subject;
 use App\Question;
+use App\QuestionType;
+use App\QuestionOption;
 use App\Http\Controllers\Web\BaseController;
 use Illuminate\Http\Request;
 use DataTables;
@@ -86,9 +88,13 @@ class QuizController extends BaseController
         $questionList = Question::with(['questionOptions', 'questionType'])
                             ->where('questions.quiz_id', '=', $id)
                             ->get();
+        
+        $quizList = Quiz::all();
+        $questionTypeList = QuestionType::all();
+
         // dd($questionList);
         $this->setPageTitle('Quizzes', 'Edit Quizzes : ' . $quiz->name);
-        return view('admin.quizzes.create', compact('edit', 'subjects', 'quiz', 'questionList'));
+        return view('admin.quizzes.create', compact('edit', 'subjects', 'quiz', 'questionList', 'quizList', 'questionTypeList'));
     }
 
     public function update(Request $request, $id)
@@ -112,5 +118,51 @@ class QuizController extends BaseController
         $subject->delete();
 
         return $this->responseRedirect('admin.quizzes.index', 'Quiz successfully deleted' ,'success', false, false);
+    }
+
+    public function addQuestion(Request $request)
+    {
+        $this->validate($request, [
+            'title'  =>  'required',
+            'duration'  =>  'required',
+            'question_type_id'  =>  'required',
+            'quiz_id'  =>  'required',
+        ]);
+        
+        $question = new Question();
+        $question->title = $request->input('title');
+        $question->description = $request->input('description');
+        $question->duration = $request->input('duration');
+        $question->quiz_id = $request->input('quiz_id');
+        $question->question_type_id = $request->input('question_type_id');
+        if($request->input('question_type_id') != 3 && $request->input('is_true') != "on") {
+            $question->is_true = 0;
+        } else {
+            $question->is_true = 1;
+        }
+        $question->save();
+        
+        return $this->responseRedirectBack('Question successfully added' ,'success', false, false);
+    }
+
+    public function addOption(Request $request)
+    {
+        $this->validate($request, [
+            'title'  =>  'required',
+            'question_id'  =>  'required',
+        ]);
+        
+        $option = new QuestionOption();
+        $option->title = $request->input('title');
+        $option->description = $request->input('description');
+        if($request->input('is_correct') == "on") {
+            $option->is_correct = 1;
+        } else {
+            $option->is_correct = 0;
+        }
+        $option->question_id = $request->input('question_id');
+        $option->save();
+        
+        return $this->responseRedirectBack('Question successfully added' ,'success', false, false);
     }
 }

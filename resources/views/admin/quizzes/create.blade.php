@@ -12,7 +12,7 @@
 
     <div class="section-body">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card">
                     <div class="card-header">
                         <h4>Jump To</h4>
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="tab-content">
                     <div class="tab-pane active" id="info">
                         <form action="{{ $edit ? route('admin.quizzes.update', $quiz->id) : route('admin.quizzes.store') }}" method="POST" role="form">
