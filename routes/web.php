@@ -23,8 +23,6 @@ Route::group(['middleware' => ['verified']], function() {
     Route::get('/profile', function() {
         return view('admin/profile');
     })->name('profile');
-
-    Route::resource('/motivations', 'Web\MotivationController');
     
     // Users
     Route::group(['prefix' => 'users'], function () {
@@ -34,6 +32,16 @@ Route::group(['middleware' => ['verified']], function() {
         Route::get('/edit/{id}', 'Web\UserController@edit')->name('admin.users.edit');
         Route::post('/update/{id}', 'Web\UserController@update')->name('admin.users.update');       
         Route::get('/delete/{id}', 'Web\UserController@delete')->name('admin.users.delete');
+    });
+
+    // Motivations
+    Route::group(['prefix' => 'motivations'], function () {
+        Route::get('/', 'Web\MotivationController@index')->name('admin.motivations.index');
+        Route::get('/create', 'Web\MotivationController@create')->name('admin.motivations.create');
+        Route::post('/store', 'Web\MotivationController@store')->name('admin.motivations.store');
+        Route::get('/edit/{id}', 'Web\MotivationController@edit')->name('admin.motivations.edit');
+        Route::post('/update/{id}', 'Web\MotivationController@update')->name('admin.motivations.update');       
+        Route::get('/delete/{id}', 'Web\MotivationController@delete')->name('admin.motivations.delete');
     });
 
     // Subjects
@@ -60,6 +68,7 @@ Route::group(['middleware' => ['verified']], function() {
         Route::get('/{id}/delete/option', 'Web\QuizController@deleteOption')->name('admin.quizzes.delete.option');
         Route::post('/option/update', 'Web\QuizController@updateOption')->name('admin.quizzes.update.option');
         Route::post('/question/update', 'Web\QuizController@updateQuestion')->name('admin.quizzes.update.question');       
+        Route::post('/{id}/delete/question', 'Web\QuizController@deleteQuestion')->name('admin.quizzes.delete.question');       
     });
 
     // Classroom

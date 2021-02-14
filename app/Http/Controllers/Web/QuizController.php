@@ -235,4 +235,17 @@ class QuizController extends BaseController
         
         return $this->responseRedirectBack('Question successfully updated' ,'success', false, false);
     }
+
+    public function deleteQuestion($id)
+    {
+        $option = QuestionOption::findOrFail($id);
+
+        if($option->is_correct != 1){
+            $option->delete();
+        } else {
+            return $this->responseRedirectBack('Failed to delete question option. Make sure the option to be deleted is not a correct option.' ,'error', false, false);
+        }
+
+        return $this->responseRedirectBack('Question option successfully deleted' ,'success', false, false);
+    }
 }
