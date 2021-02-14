@@ -17,6 +17,6 @@ class QuestionType extends Model
      * Get the type of question associated with the question
      */
     public function questions(){
-        return $this->hasMany(Question::class);
+        return $this->hasMany(Question::class, 'question_type_id');
     }
 }

@@ -141,8 +141,10 @@ class QuizController extends BaseController
             $question->is_true = 1;
         }
         $question->save();
+
+        $route_params = $request->quiz_id . '#question';
         
-        return $this->responseRedirectBack('Question successfully added' ,'success', false, false);
+        return $this->responseRedirect('admin.quizzes.edit','Question successfully added' ,'success', false, false, $route_params);
     }
 
     public function addOption(Request $request)
@@ -169,6 +171,7 @@ class QuizController extends BaseController
     public function deleteOption($id)
     {
         $option = QuestionOption::findOrFail($id);
+
         if($option->is_correct != 1){
             $option->delete();
         } else {
@@ -176,5 +179,60 @@ class QuizController extends BaseController
         }
 
         return $this->responseRedirectBack('Question option successfully deleted' ,'success', false, false);
+    }
+
+    public function updateOption(Request $request)
+    {
+        $this->validate($request, [
+            'titleOption' => 'required'
+        ]);
+
+        $option = QuestionOption::findOrFail($request->input('question_option_id'));
+        
+        $correctOptionExist = QuestionOption::all()
+                                ->where('question_id', '=', $option->question_id)
+                                ->where('is_correct', '=', 1);
+        
+        $option->title = $request->input('titleOption');
+        $option->description = $request->input('description');
+        if($request->input('is_correct') == "on"){
+            if(count($correctOptionExist) == 0){
+                $option->is_correct = 1;
+            } else {
+                return $this->responseRedirectBack('Failed to update question option. Only one correct option allowed per question in multiple choice question (MCQ).' ,'error', false, false);
+            }
+        }
+        $option->save();
+        
+        return $this->responseRedirectBack('Question Option successfully updated' ,'success', false, false);
+    }
+
+    public function updateQuestion(Request $request)
+    {
+        $this->validate($request, [
+            'title'  =>  'required',
+            'duration'  =>  'required',
+            'question_type_id'  =>  'required',
+            'question_id'  =>  'required',
+            'quiz_id'  =>  'required',
+        ]);
+        $question = Question::findOrFail($request->input('question_id'));
+        $question->title = $request->input('title');
+        if($request->description != null){
+            $question->description = $request->input('description');
+        }
+        $question->duration = $request->input('duration');
+        $question->quiz_id = $request->input('quiz_id');
+        $question->question_type_id = $request->input('question_type_id');
+        if($request->input('question_type_id') == 3 && $request->input('is_true') != "on") {
+            $question->is_true = 0;
+        } else {
+            $question->is_true = 1;
+        }
+        $question->save();
+
+        $route_params = $request->quiz_id . '#question';
+        
+        return $this->responseRedirectBack('Question successfully updated' ,'success', false, false);
     }
 }
