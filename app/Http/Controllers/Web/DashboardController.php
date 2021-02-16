@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\User;
+use App\Classroom;
+use App\Quiz;
+use App\Assignment;
 
 class DashboardController extends Controller
 {
@@ -24,6 +28,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin/dashboard');
+        $totalStudents = User::role('student')->count();
+        $totalClasses = Classroom::all()->count();
+        $ongoingQuiz = Quiz::all()
+                            ->where('is_active', '=', '1')
+                            ->count();
+        $ongoingAssignment = Assignment::all()->count();
+
+        return view('admin/dashboard', compact('totalStudents', 'totalClasses', 'ongoingQuiz', 'ongoingAssignment'));
     }
 }
