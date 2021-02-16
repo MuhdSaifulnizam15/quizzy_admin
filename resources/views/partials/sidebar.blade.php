@@ -28,12 +28,6 @@
             <span>Daily Dose</span>
           </a>
         </li>
-        <!-- <li>
-          <a href="#" class="nav-link">
-            <i class="fas fa-tools"></i>
-            <span>Quiz Builder</span>
-          </a>
-        </li> -->
         <li class="nav-item dropdown">
           <a href="#" class="nav-link has-dropdown">
             <i class="fas fa-tasks"></i>
@@ -63,13 +57,13 @@
                 <i class="fas fa-user-graduate"></i>
                 <span>Students</span>
               </a>
-            </li>
+            </li> -->
             <li>
-              <a href="#" class="nav-link">
+              <a href="{{ route('admin.assignments.index') }}" class="nav-link">
                 <i class="far fa-paper-plane"></i>
                 <span>Assignments</span>
               </a>
-            </li> -->
+            </li>
             <li>
               <a href="{{ route('admin.subjects.index') }}" class="nav-link">
                 <i class="fas fa-book"></i>

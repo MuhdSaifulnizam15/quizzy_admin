@@ -41,7 +41,7 @@ class Quiz extends Model
      * Get the assignments associated with the quiz
      */
     public function assignment(){
-        return $this->belongsTo(Assignment::class);
+        return $this->hasMany(Assignment::class);
     }
 
     /**

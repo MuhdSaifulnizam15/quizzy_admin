@@ -44,6 +44,16 @@ Route::group(['middleware' => ['verified']], function() {
         Route::get('/delete/{id}', 'Web\MotivationController@delete')->name('admin.motivations.delete');
     });
 
+    // Assignments
+    Route::group(['prefix' => 'assignments'], function () {
+        Route::get('/', 'Web\AssignmentController@index')->name('admin.assignments.index');
+        Route::get('/create', 'Web\AssignmentController@create')->name('admin.assignments.create');
+        Route::post('/store', 'Web\AssignmentController@store')->name('admin.assignments.store');
+        Route::get('/edit/{id}', 'Web\AssignmentController@edit')->name('admin.assignments.edit');
+        Route::post('/update/{id}', 'Web\AssignmentController@update')->name('admin.assignments.update');       
+        Route::get('/delete/{id}', 'Web\AssignmentController@delete')->name('admin.assignments.delete');
+    });
+
     // Subjects
     Route::group(['prefix' => 'subjects'], function () {
         Route::get('/', 'Web\SubjectController@index')->name('admin.subjects.index');

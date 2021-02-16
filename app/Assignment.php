@@ -17,7 +17,7 @@ class Assignment extends Model
      * Get the quiz associated with the assignments
      */
     public function quizzes(){
-        return $this->hasMany(Quiz::class);
+        return $this->belongsTo(Quiz::class, 'quiz_id');
     }
 
     /**
@@ -25,5 +25,12 @@ class Assignment extends Model
      */
     public function subject(){
         return $this->belongsTo(Subject::class);
+    }
+
+    /**
+     * Get the classroom associated with the assignment
+     */
+    public function classroom(){
+        return $this->belongsTo(Classroom::class);
     }
 }
