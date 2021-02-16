@@ -7,6 +7,12 @@
         <div class="login-brand">
         <img src="{{ asset('assets/img/quizzy.png') }}" alt="logo" width="80" class="shadow-light rounded-circle p-1">
         </div>
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible show fade" role="alert">
+                <button class="close" type="button" data-dismiss="alert">×</button>
+                <strong>Error!</strong> {{$errors->first()}}
+            </div>
+        @endif
         <div class="card card-primary">
             <div class="card-header"><h4>Login</h4></div>
 
@@ -16,7 +22,7 @@
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" tabindex="1" required autofocus>
                         <div class="invalid-feedback">
                             Please fill in your email
                         </div>
@@ -31,9 +37,9 @@
                             </a>
                             </div>
                         </div>
-                        <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" tabindex="2" required>
                         <div class="invalid-feedback">
-                            please fill in your password
+                            Please fill in your password
                         </div>
                     </div>
 
