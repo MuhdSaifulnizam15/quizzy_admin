@@ -5,10 +5,16 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Laravel\Passport\HasApiTokens;
+use App\Notifications\MailVerifyEmailNotification;
+use App\Notifications\MailResetPasswordNotification;
+use Storage;
+use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable, HasRoles;
+
+    protected $appends = ['avatar_url'];
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'avatar'
     ];
 
     /**
@@ -36,4 +42,42 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Override the mail body for reset password notification mail.
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
+    }
+
+    /**
+     * Get avatar url path
+     */
+    public function getAvatarUrlAttribute()
+    {
+        return Storage::url('avatars/'.$this->id.'/'.$this->avatar);
+    }
+
+    /**
+     * Get the quiz marks associated with the user
+     */
+    public function quizMarks(){
+        return $this->hasMany(QuizMark::class);
+    }
+
+    /**
+     * Get the tutor associated with the classroom
+     */
+    public function tutors(){
+        return $this->hasMany(Classroom::class);
+    }
+
+    /**
+     * The users that belong to the role.
+     */
+    public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class, 'classroom_users');
+    }
 }

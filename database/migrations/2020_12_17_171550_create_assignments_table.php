@@ -20,10 +20,12 @@ class CreateAssignmentsTable extends Migration
             $table->bigInteger('priority')->default(0);
             $table->bigInteger('subject_id')->unsigned()->nullable();
             $table->bigInteger('quiz_id')->unsigned()->nullable();
+            $table->bigInteger('classroom_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
+            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
         });
     }
 

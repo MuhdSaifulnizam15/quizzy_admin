@@ -17,11 +17,13 @@ class CreateQuestionAnswersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('question_id')->unsigned()->nullable();
             $table->bigInteger('question_option_id')->unsigned()->nullable();
+            $table->bigInteger('student_id')->unsigned()->nullable();
             $table->bigInteger('answer_time')->nullable();
             $table->timestamps();
 
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->foreign('question_option_id')->references('id')->on('question_options')->onDelete('cascade');
+            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
