@@ -1,23 +1,26 @@
 @extends('layouts.app')
 
-@section('title', 'Daily Dose List')
+@section('title') {{ $pageTitle }} @endsection
 
 @section('content')
   <section class="section">
     <div class="section-header">
-      <h1>Daily Dose</h1>
+      <h1>{{ $pageTitle }}</h1>
     </div>
 
+    @include('partials.flash')
+
     <div class="section-body">
-        <h2 class="section-title">List of Motivation Quote</h2>
-        <p class="section-lead">Random Motivation Quote would be displayed on the app.</p>
+        <!-- <h2 class="section-title">List of Motivation Quote</h2>
+        <p class="section-lead">Random Motivation Quote would be displayed on the app.</p> -->
 
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <!-- <div class="card-header">
-                        <h4>Motivation List</h4>
-                    </div> -->
+                    <div class="card-header justify-content-between">
+                        <h4>{{ $subTitle }}</h4>
+                        <a href="{{ route('admin.motivations.create') }}" class="btn btn-outline-primary">Add New Quote</a>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-md data-table">
@@ -29,17 +32,6 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <!-- @foreach($motivations as $motivation)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $motivation->quote }}</td>
-                                    <td>{{ $motivation->author }}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-outline-primary m-1">Edit</a>
-                                        <a href="#" class="btn btn-outline-danger m-1">Delete</a>
-                                    </td>
-                                </tr>
-                                @endforeach -->
                                 <tbody>
                                 </tbody>
                             </table>
@@ -58,7 +50,7 @@
         var table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('motivations.index') }}",
+            ajax: "{{ route('admin.motivations.index') }}",
             pageLength: 10,
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex'},

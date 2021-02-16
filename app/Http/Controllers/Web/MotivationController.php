@@ -30,7 +30,7 @@ class MotivationController extends BaseController
                     ->rawColumns(['action'])
                     ->make(true);
         }
-        return view('admin.motivation.index', compact('motivations'));
+        return view('admin.motivations.index', compact('motivations'));
     }
 
     /**
@@ -60,7 +60,7 @@ class MotivationController extends BaseController
 
         $motivation = new Motivation();
         $motivation->quote = $request->input('quote');
-        $motivation->author = strtoupper($request->input('author'));
+        $motivation->author = $request->input('author');
         $motivation->save();
 
         return $this->responseRedirect('admin.motivations.index', 'Motivation successfully added' ,'success', false, false);
@@ -78,7 +78,7 @@ class MotivationController extends BaseController
         $edit = true;
 
         $this->setPageTitle('Motivation', 'Edit Motivation : ' . $motivation->name);
-        return view('admin.subjects.create', compact('motivation', 'edit'));
+        return view('admin.motivations.create', compact('motivation', 'edit'));
     }
 
     /**
@@ -91,7 +91,7 @@ class MotivationController extends BaseController
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'quote'      =>  'required|unique:motivation_quotes',
+            'quote'      =>  'required|unique:motivation_quotes,quote,'.$id,
             'author'      =>  'required'
         ]);
         

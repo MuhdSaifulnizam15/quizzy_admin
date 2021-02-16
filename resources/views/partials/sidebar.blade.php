@@ -23,7 +23,7 @@
           </a>
         </li> -->
         <li>
-          <a href="{{ route('motivations.index') }}" class="nav-link">
+          <a href="{{ route('admin.motivations.index') }}" class="nav-link">
             <i class="fas fa-syringe"></i>
             <span>Daily Dose</span>
           </a>
