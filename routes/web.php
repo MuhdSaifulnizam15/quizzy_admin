@@ -93,4 +93,16 @@ Route::group(['middleware' => ['verified']], function() {
         Route::get('/detail/{id}', 'Web\ClassroomController@detail')->name('admin.classrooms.detail');
         Route::post('/addStudent/{id}', 'Web\ClassroomController@addStudentToClass')->name('admin.classrooms.add.student');
     });
+
+    // Reports
+    Route::group(['prefix' => 'reports'], function () {
+        // Report By Class
+        Route::get('/class', 'Web\ReportController@classReport')->name('admin.reports.class');
+        // Report By Assignment
+        Route::get('/assignment', 'Web\ReportController@assignmentReport')->name('admin.reports.assignment');
+        // Report By Tutor
+        Route::get('/tutor', 'Web\ReportController@tutorReport')->name('admin.reports.tutor');
+        // Report By Quiz
+        Route::get('/quiz', 'Web\ReportController@quizReport')->name('admin.reports.quiz');
+    });
 });
