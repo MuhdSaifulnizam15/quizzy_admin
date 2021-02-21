@@ -96,6 +96,7 @@ Route::group(['middleware' => ['verified']], function() {
 
     // Reports
     Route::group(['prefix' => 'reports'], function () {
+        Route::get('/', 'Web\ReportController@index')->name('admin.reports.index');
         // Report By Class
         Route::get('/class', 'Web\ReportController@classReport')->name('admin.reports.class');
         // Report By Assignment

@@ -76,7 +76,7 @@
 
       <li class="menu-header">Generate</li> 
         <li class="nav-item dropdown">
-          <a href="#" class="nav-link">
+          <a href="{{ route('admin.reports.index') }}" class="nav-link">
             <i class="far fa-file-pdf"></i>
             <span>Report</span>
           </a>
