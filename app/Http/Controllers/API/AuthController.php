@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Auth\Events\Verified;
 use Avatar;
 use Storage;
+use App\Rules\IsValidPassword;
 
 class AuthController extends BaseController
 {
@@ -31,7 +32,7 @@ class AuthController extends BaseController
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => ['required', 'string', new IsValidPassword()],
         ]);
 
         if($validator->fails()){
@@ -58,6 +59,12 @@ class AuthController extends BaseController
      * Login API
      * 
      * @return \Illuminate\Http\Response
+     * 
+     * Success Code - 1000
+     * 
+     * API Error Code
+     * 1001 - Please verify your account
+     * 1002 - Invalid credentials
      */
     public function login(Request $request){
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
@@ -65,16 +72,13 @@ class AuthController extends BaseController
             $success['token'] = $user->createToken('QuizzySecret')->accessToken;
             $success['name'] = $user->name;
 
-            $success['token'] = $user->createToken('QuizzySecret')->accessToken;
-            $success['name'] = $user->name; 
-
             if($user->email_verified_at !== null){
                 return $this->sendResponse(
                     'User sucessfully login', $success
                 );
             } else {
                 return $this->sendResponse(
-                    'Please verify your account. Check the inbox of this email ' . $request->email, $success
+                    'Please verify your account. Check the inbox of this email ' . $request->email
                 );
             }
         } else {
@@ -88,6 +92,11 @@ class AuthController extends BaseController
      * Logout API
      * 
      * @return \Illuminate\Http\Response
+     * 
+     * Success Code - 1003
+     * 
+     * API Error Code
+     * 1004 - Unable to logout
      */
     public function logout(Request $request){
         if(auth()->user()){
