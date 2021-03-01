@@ -31,5 +31,20 @@ Route::group(['prefix' => 'v1'], function () {
         // Send reset password mail
         Route::post('reset-password', 'API\AuthController@sendPasswordResetLink');
         Route::post('/password/reset/', 'API\AuthController@callResetPassword');
+
+        // Profile
+        Route::get('/profile', 'API\UserController@getUserProfile');
+        Route::post('/profile/update', 'API\UserController@updateUserProfile');
+
+        // Assignment
+
+        // Quiz
+
+        // Motivation
+        Route::get('/daily/motivation', 'API\MotivationController@getDailyMotivation');
+
+        // Classroom
+
+        // Dashboard
     });
 });
